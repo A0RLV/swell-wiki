@@ -1,0 +1,161 @@
+{
+  "_comment": "What the extractor should produce for examples/sample_fathom_transcript.json. Useful as a fixture for tests and for tuning the prompt without burning Claude calls.",
+  "call": {
+    "id": "td-2025-04-22-paid-search-de",
+    "date": "2025-04-22",
+    "title": "Target Darts — DE paid search review",
+    "attendees": ["Mar Castro", "Chris Bennett", "Lukas Weber"],
+    "duration_s": 1860,
+    "fathom_url": "https://fathom.video/share/example"
+  },
+  "summary_bullets": [
+    "Rolling out the new hero variant across DE paid search this week — Lukas owns German copy sign-off by Friday.",
+    "Launching a 2-week vernacular keyword test on May 1 with €15k initial budget; scale-up gated on +20% CTR at midpoint, hard ceiling at €40k.",
+    "Austria expansion parked until June — DE work has to land first."
+  ],
+  "stakeholders": [
+    {
+      "name": "Chris Bennett",
+      "company": "Target Darts",
+      "role": "Executive sponsor",
+      "seniority": "cxo",
+      "sentiment": "neutral",
+      "talk_time_pct": 0.30,
+      "authority_signals": [
+        "Approved hero rollout for DE",
+        "Set €40k ceiling on keyword test",
+        "Parked Austria expansion"
+      ]
+    },
+    {
+      "name": "Mar Castro",
+      "company": "Swell",
+      "role": "Strategist",
+      "seniority": "lead",
+      "sentiment": "positive",
+      "talk_time_pct": 0.55,
+      "authority_signals": [
+        "Owns vernacular keyword test end-to-end"
+      ]
+    },
+    {
+      "name": "Lukas Weber",
+      "company": "Target Darts",
+      "role": "Marketing lead, DACH",
+      "seniority": "manager",
+      "sentiment": "neutral",
+      "talk_time_pct": 0.15,
+      "authority_signals": [
+        "Owns German copy sign-off"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "summary": "Roll out new hero variant across DE paid search this week.",
+      "owner": "Chris Bennett",
+      "deadline": null,
+      "status": "open",
+      "workstream": "paid-search-de",
+      "t_start_s": 92,
+      "t_end_s": 110,
+      "confidence": 0.95
+    },
+    {
+      "summary": "Park Austria expansion until June; focus on DE first.",
+      "owner": "Chris Bennett",
+      "deadline": "2025-06-01",
+      "status": "open",
+      "workstream": "geo-expansion",
+      "t_start_s": 320,
+      "t_end_s": 380,
+      "confidence": 0.9
+    }
+  ],
+  "commitments": [
+    {
+      "summary": "Lukas will sign off on the German hero copy by Friday.",
+      "owner": "Lukas Weber",
+      "due": "2025-04-25",
+      "status": "open",
+      "workstream": "paid-search-de",
+      "t_start_s": 110,
+      "t_end_s": 128
+    },
+    {
+      "summary": "Chris will check with legal counsel on prize-claim language and respond tomorrow.",
+      "owner": "Chris Bennett",
+      "due": "2025-04-23",
+      "status": "open",
+      "workstream": "creative-refresh",
+      "t_start_s": 430,
+      "t_end_s": 460
+    }
+  ],
+  "experiments": [
+    {
+      "name": "de-vernacular-keyword-test",
+      "hypothesis": "Bidding on German vernacular search terms (under-served in current setup) will lift CTR by 20%+.",
+      "market": "DE",
+      "channel": "paid-search",
+      "status": "proposed",
+      "t_start_s": 128,
+      "t_end_s": 280
+    }
+  ],
+  "workstreams": [
+    {
+      "name": "paid-search-de",
+      "status": "active — hero rollout + vernacular test launching",
+      "key_update": "CPA up 14% WoW on brand terms; new hero +23% CR in test cohort; rolling out across DE.",
+      "t_start_s": 0,
+      "t_end_s": 280
+    },
+    {
+      "name": "geo-expansion",
+      "status": "parked until June",
+      "key_update": "Austria expansion explicitly parked until DE work lands.",
+      "t_start_s": 280,
+      "t_end_s": 380
+    }
+  ],
+  "performance_signals": [
+    {
+      "metric": "CPA",
+      "value": "+14% WoW",
+      "direction": "up",
+      "market": "DE",
+      "channel": "paid-search",
+      "note": "Primarily on brand terms; new Winmau entrant suspected driver.",
+      "t_start_s": 0,
+      "t_end_s": 92
+    },
+    {
+      "metric": "Conversion rate (new hero variant)",
+      "value": "+23% vs control",
+      "direction": "up",
+      "market": "DE",
+      "channel": "paid-search-landing",
+      "t_start_s": 45,
+      "t_end_s": 92
+    },
+    {
+      "metric": "SEO clicks",
+      "value": "-6%",
+      "direction": "down",
+      "market": "DE",
+      "channel": "seo",
+      "note": "Conversion rate held; click drop is the concern.",
+      "t_start_s": 0,
+      "t_end_s": 18
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "Do we have legal sign-off on the new creative's prize-claim language?",
+      "who_to_ask": "Chris Bennett",
+      "t_start_s": 380,
+      "t_end_s": 430
+    }
+  ]
+}

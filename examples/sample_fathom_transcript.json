@@ -1,0 +1,28 @@
+{
+  "id": "td-2025-04-22-paid-search-de",
+  "title": "Target Darts — DE paid search review",
+  "started_at": "2025-04-22T14:00:00Z",
+  "duration_seconds": 1860,
+  "fathom_url": "https://fathom.video/share/example",
+  "attendees": [
+    {"name": "Mar Castro", "email": "mar@swell.consulting"},
+    {"name": "Chris Bennett", "email": "chris@targetdarts.com"},
+    {"name": "Lukas Weber", "email": "lukas@targetdarts.com"}
+  ],
+  "transcript": [
+    {"start_seconds": 0,   "end_seconds": 18,  "speaker": "Mar Castro",     "text": "Quick recap on DE — last week's data is in. CPA on paid search is up 14% week-over-week, primarily on brand terms. Display is flat. SEO clicks are down 6% but conversion rate held."},
+    {"start_seconds": 18,  "end_seconds": 45,  "speaker": "Chris Bennett",  "text": "The brand term thing is annoying. What's driving it?"},
+    {"start_seconds": 45,  "end_seconds": 92,  "speaker": "Mar Castro",     "text": "Two things. We've got increased bid competition from a new entrant — looks like Winmau ramped up Q2 — and our landing pages are still using the old hero. The conversion rate on the new hero variant is 23% higher in our test cohort."},
+    {"start_seconds": 92,  "end_seconds": 110, "speaker": "Chris Bennett",  "text": "OK. Let's roll out the new hero across DE this week. Lukas can you sign off on the German copy?"},
+    {"start_seconds": 110, "end_seconds": 128, "speaker": "Lukas Weber",    "text": "Yes, I'll have it back to you by Friday. The copy team has the brief."},
+    {"start_seconds": 128, "end_seconds": 165, "speaker": "Mar Castro",     "text": "Good. One more thing — the German search behavior data shows users typing 'alarmanlage' way more than 'alarmsysteem'. Our ad copy is split 60/40 the wrong way. I want to flip it and run a 2-week test, then make it permanent if CTR holds."},
+    {"start_seconds": 165, "end_seconds": 185, "speaker": "Chris Bennett",  "text": "Wait, this is the dartboard market — does that even apply here?"},
+    {"start_seconds": 185, "end_seconds": 220, "speaker": "Mar Castro",     "text": "Yeah sorry, wrong example. Same pattern though — there's a German vernacular term users actually search for that we're under-bidding on. I'll send you the keyword set. The test runs from May 1, and we'll have data by May 15."},
+    {"start_seconds": 220, "end_seconds": 245, "speaker": "Chris Bennett",  "text": "Fine. I want to see results before we go above €40k on this test."},
+    {"start_seconds": 245, "end_seconds": 280, "speaker": "Mar Castro",     "text": "Understood. Initial budget €15k, scale if CTR is +20% or better at the midpoint check. I'll own this end-to-end."},
+    {"start_seconds": 280, "end_seconds": 320, "speaker": "Lukas Weber",    "text": "What about Austria? We've been wanting to expand south."},
+    {"start_seconds": 320, "end_seconds": 380, "speaker": "Chris Bennett",  "text": "Park Austria until June. We need to nail DE first. I don't want to spread thin."},
+    {"start_seconds": 380, "end_seconds": 430, "speaker": "Mar Castro",     "text": "Agreed. One open question — do we have the legal sign-off on the new creative? The agency flagged something about the prize claim language."},
+    {"start_seconds": 430, "end_seconds": 460, "speaker": "Chris Bennett",  "text": "I'll check with our counsel today. Should have an answer tomorrow."}
+  ]
+}
