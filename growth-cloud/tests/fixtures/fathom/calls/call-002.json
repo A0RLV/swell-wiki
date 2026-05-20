@@ -1,0 +1,11 @@
+{
+  "id": "call-002",
+  "title": "Q2 planning",
+  "started_at": "2025-04-15T14:30:00+00:00",
+  "duration_seconds": 3600,
+  "transcript": {"text": "Alex: we want to launch the FR market next quarter. Sam at 00:22:10: agreed, will scope creative localisation by April 30."},
+  "invitees": [
+    {"email": "alex@verisure.com"},
+    {"email": "sam@swell.agency"}
+  ]
+}
