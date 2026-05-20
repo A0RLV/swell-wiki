@@ -1,0 +1,25 @@
+[
+  {
+    "id": "call-001",
+    "started_at": "2025-04-12T10:00:00+00:00",
+    "invitees": [
+      {"email": "chris@target-darts.com"},
+      {"email": "mar@swell.agency"}
+    ]
+  },
+  {
+    "id": "call-002",
+    "started_at": "2025-04-15T14:30:00+00:00",
+    "invitees": [
+      {"email": "alex@verisure.com"},
+      {"email": "sam@swell.agency"}
+    ]
+  },
+  {
+    "id": "call-orphan",
+    "started_at": "2025-04-16T09:00:00+00:00",
+    "invitees": [
+      {"email": "someone@unknown-domain.example"}
+    ]
+  }
+]
