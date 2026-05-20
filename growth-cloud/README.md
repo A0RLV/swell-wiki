@@ -1,91 +1,104 @@
 # Swell Growth Cloud
 
-A vertical marketing-ops product built on top of [llmwiki](../llmwiki/). It turns
-Fathom call transcripts into structured **AID** documents (Augmented Interaction
-Documents) and compounds a per-client wiki over them using Claude via MCP.
+Auto-ingests Fathom call transcripts, extracts structured data into AID documents and compounds a per-client wiki via Claude over MCP. Built on [llmwiki](../llmwiki/).
 
-## Architecture
+## deltas vs vanilla llmwiki
+
+llmwiki is a generic research wiki. You add documents manually; Claude organizes them.
+
+Growth Cloud adds three capabilities:
+
+1. **Automatic ingestion** — polls Fathom, extracts structured data (decisions, commitments, stakeholders, experiments) into AID documents via Claude. No manual document creation.
+2. **Deterministic query tools** — `briefing`, `stakeholders`, `commitments`, `decisions` answer the canonical agency questions instantly from frontmatter. No LLM needed per query. Every claim cited to a specific call and timestamp.
+3. **Auto-compounding wiki** — the recompile worker detects which wiki pages a new call affects and has Claude update them. The wiki stays current without manual effort.
+
+## Specification
+
+### Data Flow
 
 ```
-Fathom API --> ingest poller --> Claude (extract) --> AID markdown --> llmwiki workspace
-                                                                           |
-                                                             recompile worker
-                                                                           |
-                                                             Claude (over MCP)
-                                                                           |
-                                                       /wiki/clients/<c>/...
+Fathom API -> ingest poller -> Claude (extract) -> AID markdown -> workspace
+                                                                      |
+                                                        recompile worker
+                                                                      |
+                                                        Claude (MCP tools)
+                                                                      |
+                                                  /wiki/clients/<c>/...
 ```
 
-- **Source layer** — raw AID documents the user owns. Read-only to Claude.
-- **Wiki layer** — markdown pages under `/wiki/...` written by Claude via MCP tools.
+### On-Disk Layout
 
-## Quick Start
-
-```bash
-# 1. Install
-pip install -e '.[dev]'
-
-# 2. Init a workspace
-./growth-cloud init /path/to/workspace
-
-# 3. Get Claude Desktop config
-./growth-cloud mcp-config /path/to/workspace
-
-# 4. Run ingest (requires FATHOM_API_KEY and ANTHROPIC_API_KEY)
-./growth-cloud ingest /path/to/workspace --once
+```
+workspace/
+  clients/<slug>/calls/*.md   # AIDs (YAML frontmatter = structured data, body = summary)
+  wiki/clients/<slug>/        # overview.md, commitments.md, log.md, stakeholders/, ...
+  .llmwiki/index.db           # Derived SQLite index (rebuildable from filesystem)
 ```
 
-## Environment Variables
+### AID Schema
 
-Copy `.env.example` and fill in your values:
+Each AID extracts: participants, decisions, commitments, experiments, performance signals, sentiment beats. Every item carries a `source_timestamp` (HH:MM:SS) for citation back to the call.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `FATHOM_API_KEY` | Yes (ingest) | Fathom API token |
-| `ANTHROPIC_API_KEY` | Yes (ingest + recompile) | Anthropic API key |
-| `ANTHROPIC_MODEL` | No | Override model (default: claude-sonnet-4-5-20250929) |
-| `LLMWIKI_ROOT` | No | Path to llmwiki checkout (auto-detected from sibling) |
-| `LOG_LEVEL` | No | Logging level (default: INFO) |
+### MCP Tools
 
-## CLI Commands
+Inherits from llmwiki: `create`, `edit`, `append`, `delete`, `read`, `search`.
+
+Adds:
+
+| Tool | Purpose |
+|------|---------|
+| `guide` | Growth Cloud doctrine (overrides llmwiki's) |
+| `briefing` | Client state briefing with citations |
+| `stakeholders` | Ranked stakeholder list |
+| `commitments` | Open/closed commitments, filterable by owner |
+| `decisions` | Decision log, filterable by workstream/date |
+| `clients` | List all known clients |
+
+The four query tools are deterministic (no LLM in the loop) — they aggregate YAML frontmatter directly.
+
+### CLI
 
 | Command | Description |
 |---------|-------------|
-| `./growth-cloud init <workspace>` | Initialize a workspace with schema and directory structure |
-| `./growth-cloud mcp <workspace>` | Start the MCP server (stdio transport for Claude Desktop) |
-| `./growth-cloud mcp-config <workspace>` | Print Claude Desktop JSON config snippet |
-| `./growth-cloud ingest <workspace>` | Poll Fathom and ingest new calls as AIDs |
-| `./growth-cloud recompile <workspace> <aid-path>` | Recompile wiki pages affected by a specific AID |
+| `./growth-cloud init <ws>` | Create workspace with schema + directory structure |
+| `./growth-cloud mcp <ws>` | Start MCP server (stdio, for Claude Desktop) |
+| `./growth-cloud mcp-config <ws>` | Print Claude Desktop JSON config |
+| `./growth-cloud ingest <ws>` | Poll Fathom, extract AIDs, trigger recompile |
+| `./growth-cloud recompile <ws> <aid>` | Recompile wiki pages affected by a specific AID |
 
-## MCP Tools
+## Requirements
 
-Inherits all llmwiki tools (`search`, `read`, `write`, `delete`, `references`, `ping`)
-plus Growth Cloud-specific tools:
+- Python 3.11+
+- [llmwiki](../llmwiki/) checkout (auto-detected as sibling, or set `LLMWIKI_ROOT`)
+- `FATHOM_API_KEY` — Fathom API token (for ingest)
+- `ANTHROPIC_API_KEY` — Anthropic API key (for extraction + recompile)
 
-| Tool | Description |
-|------|-------------|
-| `guide` | Growth Cloud doctrine (overrides llmwiki's guide) |
-| `briefing` | Current-state briefing for a client |
-| `stakeholders` | Ranked stakeholder list with citations |
-| `commitments` | Open/closed commitments filtered by owner |
-| `decisions` | Decision log filtered by workstream/date |
-| `clients` | List all known clients |
+No cloud services or external infrastructure. Runs entirely local: filesystem + SQLite.
 
-## Testing
+## Setup
 
 ```bash
-pytest tests/ -v
+# Install
+pip install -e '.[dev]'
+
+# Init workspace
+./growth-cloud init ~/my-workspace
+
+# Add to Claude Desktop (copy output into claude_desktop_config.json)
+./growth-cloud mcp-config ~/my-workspace
+
+# Ingest calls
+./growth-cloud ingest ~/my-workspace --once
+
+# Run tests
+make test
 ```
 
-## Project Structure
+Optional env vars (see `.env.example`):
 
-```
-growth-cloud/
-  ingest/          # Fathom polling, AID extraction, writing
-  mcp_tools/       # MCP tool handlers (guide, briefing, etc.)
-  recompile/       # Wiki recompile worker
-  schema/          # AID pydantic schema
-  server/          # MCP server entry point + CLI
-  tests/           # Test suite
-  examples/        # Example workspace with sample AIDs
-```
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ANTHROPIC_MODEL` | `claude-sonnet-4-5-20250929` | Override extraction model |
+| `LLMWIKI_ROOT` | `../llmwiki` | Path to llmwiki checkout |
+| `LOG_LEVEL` | `INFO` | Logging verbosity |
+
